@@ -1,11 +1,4 @@
 const peopleTable = require("../models/people");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
-const createToken = (user) => {
-   return jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: "7d" });
-};
-
 
 const signup = async (req, res) => {
    console.log("req :", req.body)
@@ -18,22 +11,16 @@ const signup = async (req, res) => {
             errors: [{ msg: "Email already exists" }],
          });
       }
-      const salt = await bcrypt.genSalt(10);
-      const hash = await bcrypt.hash(password, salt);
+
       try {
          const user = await peopleTable.create({
             name,
             email,
-            password: hash,
+            password
          });
-         const token = createToken(user);
          return res
             .status(200)
-            .cookie("token", token, {
-               expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-               httpOnly: true,
-            })
-            .json({ success: true, user, token });
+            .json( user );
       } catch (error) {
          console.log(error);
          return res.status(500).json({ error });
@@ -51,7 +38,7 @@ const login = async (req, res) => {
       user = await peopleTable.findOne({ email });
       const { password } = req.body;
       if (user) {
-         const isMatch = await bcrypt.compare(password, user.password);
+         const isMatch = password==user.password;
          if (!isMatch) {
             return res.status(200).json({
                errors: [
@@ -62,14 +49,9 @@ const login = async (req, res) => {
                email: email,
             });
          } else {
-            const token = createToken(user);
             res
                .status(200)
-               .cookie("token", token, {
-                  expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-                  httpOnly: true,
-               })
-               .json({ success: true, user, token });
+               .json(user );
          }
       } else {
          return res.status(200).json({
