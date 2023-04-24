@@ -12,7 +12,7 @@ app.use('/api/auth',authroute);
 app.use('/api/event',eventsroute);
 
 try {
-    mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.1okix.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
+    mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.yhzzkqy.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
     ).then( ()=>{
         console.log("mongodb connected...") ;
         app.listen(process.env.PORT || 4000 , ()=>
