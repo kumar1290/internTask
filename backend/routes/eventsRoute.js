@@ -6,7 +6,7 @@ const obj =require('../controllers/events')
 
 router.post('/create',obj.createEvent)
 router.get('/get',obj.readEvent)
-router.patch('/update',obj.readEvent)
-router.delete('/cancel',obj.cancelEvent)
+router.patch('/update/:eid',obj.updateEvent)
+router.patch('/cancel/:eid',obj.cancelEvent)
 
 module.exports= router ;
