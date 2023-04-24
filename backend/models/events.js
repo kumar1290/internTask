@@ -1,7 +1,8 @@
 const mongoose= require('mongoose')
 
-const foodTable = mongoose.Schema({
-    createdBy: { type: mongoose.Types.ObjectId, required : true , },
+const eventsTable = mongoose.Schema({
+    // createdBy: { type: mongoose.Types.ObjectId, required : true , },
+    createdBy: { type: String, required : true , },
     title: { type: String, required: true},
     date: { type: Date, default : Date.now},
     desc: { type: String },
