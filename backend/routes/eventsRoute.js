@@ -1,7 +1,7 @@
 const express= require('express')
 const router= express.Router() ;
 
-const obj =require('../controllers/cart')
+const obj =require('../controllers/events')
 
 
 router.get('/create',obj.createItem)
